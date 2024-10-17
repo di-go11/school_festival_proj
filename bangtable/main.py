@@ -3,7 +3,6 @@ import pygame
 import asyncio
 import random
 
-
 from state import state as State
 from animationclass import Animation
 
@@ -37,15 +36,18 @@ async def run():
 
 
 		# 台パンフラグ読み込み
-		with open(flag_A_path, 'r+', encoding='utf-8') as file:
+		with open(flag_A_path, 'rb+') as file:
 			content = file.read()
-			if (content == "True"):
+			true_str = ''.join(format(byte, '02x') for byte in ("True").encode('utf-8'))
+			read_str = ''.join(format(byte, '02x') for byte in content)
+			print(read_str + " : " + true_str)
+			if (str(content.hex()) == true_str):
 				print("flag")
 				# 台パンデータセット、台パンフラグON
 				stateA.set_bang_flag()
 				# フラグリセット
 				file.seek(0)
-				file.write("False")
+				file.write("False".encode('utf-8'))
 		# ステート監視
 		stateA.BangObserver()
 
