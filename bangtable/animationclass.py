@@ -19,7 +19,7 @@ class Animation:
 	# フォントオブジェクトの作成
 	font_num = None
 	font_text = None
-	font_path = "font/DShirkg8.ttc"
+	font_path = "/home/tanaka-iiyama-linux-pc/school_festival_proj/font/DShirkg8.ttc"
 
 	# 結果桁数
 	digit = 0

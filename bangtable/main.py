@@ -46,7 +46,6 @@ async def run():
 				# フラグリセット
 				file.seek(0)
 				file.write("False")
-
 		# ステート監視
 		stateA.BangObserver()
 
