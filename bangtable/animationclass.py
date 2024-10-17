@@ -19,6 +19,7 @@ class Animation:
 	# フォントオブジェクトの作成
 	font_num = None
 	font_text = None
+	font_path = "school_festival_proj/font/DShirkg8.ttc"
 
 	# 結果桁数
 	digit = 0
@@ -37,9 +38,10 @@ class Animation:
 	bang_task = None
 	result_task = None
 
-	# ダイパンフラグ
-	bang_flag = False
-	bang_data = 1
+	# ダイパンデータ
+	bang_data = 0
+	# 台パン可能か
+	can_bang_flag = False
 
 	# コンストラクタ
 	def __init__(self):
@@ -56,15 +58,18 @@ class Animation:
 		self.screen.fill((0, 0, 0))
 		# フォントサイズ
 		self.font_num = pygame.font.Font(None, 800)
-		self.font_text = pygame.font.Font("font/DShirkg8.ttc", 100)
+		self.font_text = pygame.font.Font(self.font_path, 100)
 
-	# ダイパンされたフラグを立てる
-	def set_bang_flag(self, data = 0):
-		self.bang_flag = True
+	# ステート変更
+	def set_bang_flag(self, state : int, data : int = 0):
+		self.status = state
 		self.bang_data = data
+	# 台パン可能か
+	def get_can_bang_flag(self) -> bool:
+		return self.can_bang_flag
 
 	# 状態遷移処理
-	async def main(self, status : int, data : int = 0):
+	async def main(self, status : int):
 		# 状態セット
 		self.status = status
 
@@ -97,7 +102,7 @@ class Animation:
 	# 最初の状態
 	async def first(self):
 		# テキスト確定
-		font_start = pygame.font.Font("font/DShirkg8.ttc", 180)
+		font_start = pygame.font.Font(self.font_path, 180)
 		text_start = font_start.render("台パン力測定", True, (255, 255, 255))
 		text_5S = font_start.render("5S", True, (255, 255, 255))
 		text_start_bang = self.font_text.render("▽タッチしてスタート！", True, (255, 255, 255))
@@ -117,6 +122,8 @@ class Animation:
 		a = 0.2
 		pos_height = text_start_bang_height
   
+		# 次の画面に遷移可能
+		self.can_bang_flag = True
 		# アニメーションループ
 		ruuning = True
 		while ruuning:
@@ -127,11 +134,9 @@ class Animation:
 					running = False
 					return  # ループを抜けて終了
 			'''
-			# ダイパンフラグが立ったら終了
-			if self.bang_flag:
-				print("next : ready")
-				self.bang_flag = False
-				self.status = self.READY
+			# ステートが変わったら終了
+			if self.status != self.FIRST:
+				self.can_bang_flag = False
 				running = False
 				return	# ループを抜けて終了
 
@@ -157,7 +162,7 @@ class Animation:
 		rest_time = 5
 
 		# テキスト確定
-		font_charge = pygame.font.Font("font/DShirkg8.ttc", 180)
+		font_charge = pygame.font.Font(self.font_path, 180)
 		text_charge = font_charge.render("力を溜めろ！", True, (255, 255, 255))
 		text_to = self.font_text.render("台パンまで", True, (255, 255, 255))
 		font_rest_time = pygame.font.Font(None, 800)
@@ -237,9 +242,9 @@ class Animation:
 	# 叩く画面
 	async def bang(self):
 		# テキスト確定
-		font_bang = pygame.font.Font("font/DShirkg8.ttc", 260)
+		font_bang = pygame.font.Font(self.font_path, 260)
 		text_bang = font_bang.render("たたけ！", True, (255, 255, 255))
-		font_arrow = pygame.font.Font("font/DShirkg8.ttc", 200)
+		font_arrow = pygame.font.Font(self.font_path, 200)
 		text_arrow = font_arrow.render("▼", True, (255, 255, 255))
 
 		# 描画
@@ -249,23 +254,16 @@ class Animation:
 
 		# 反映
 		pygame.display.flip()
-		# 年のためフラグクリア
-		self.bang_flag = False
+
+		# 次の画面に遷移可能
+		self.can_bang_flag = True
 		# アニメーションループ
 		ruuning = True
 		while ruuning:
-			'''
-			for event in pygame.event.get():
-				# ウィンドウを閉じるイベント処理
-				if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
-					running = False
-					return  # ループを抜けて終了'''
 
-			# ダイパンフラグが立ったら終了
-			if self.bang_flag:
-				print("next : result")
-				self.bang_flag = False
-				self.status = self.RESULT
+			# BANGステートでなくなったら終了
+			if self.status != self.BANG:
+				self.can_bang_flag = False
 				running = False
 				return	# ループを抜けて終了
 
@@ -305,16 +303,13 @@ class Animation:
 		# 表示のタスクが終わるまでは待機
 		await asyncio.gather(hello_task, seconds_task)
 
-		# 念のためフラグクリア
-		self.bang_flag = False
-		# 叩かれるか、20秒後に終了
-		start_time = time.time()
+		# 次の画面に遷移可能
+		self.can_bang_flag = True
+		# RESULTステートでなくなったら終了
 		running = True
 		while running:
-			if self.bang_flag or ((time.time() - start_time) >= 40):
-				print("next : first")
-				self.bang_flag = False
-				self.status = self.FIRST
+			if self.status != self.RESULT:
+				self.can_bang_flag = False
 				running = False
 				return	# ループを抜けて終了
   
@@ -405,8 +400,8 @@ class Animation:
 		await asyncio.sleep(0.6)
 	
 		# ランク判定
-		font_award = pygame.font.Font("font/DShirkg8.ttc", 100)
-		font_rank = pygame.font.Font("font/DShirkg8.ttc", 60)
+		font_award = pygame.font.Font(self.font_path, 100)
+		font_rank = pygame.font.Font(self.font_path, 60)
 		text_rank = None
 		if self.bang_data == 0 or self.bang_data == 999:
 			text_rank = font_rank.render("<< もはやバグ 係員呼んで >>", True, (255, 255, 255))
@@ -470,7 +465,7 @@ class Animation:
 
 
 
-
+'''
 # 全部をこの関数内で定義する必要がある
 async def run(animation : Animation):
 	start_task = asyncio.create_task(animation.main(Animation.FIRST))
@@ -496,4 +491,4 @@ async def run(animation : Animation):
 
 
 
-asyncio.run(run(Animation()))
+asyncio.run(run(Animation()))'''
