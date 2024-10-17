@@ -1,10 +1,11 @@
 import  ast
 
-class calc:
-  def __init__(self) -> None:
+class CALC:
+  def __init__(self,sikiti) -> None:
     self.data = None
     self.maximum = None
     self.power_data = None
+    self.sikiti = sikiti
     
   def GetMax(self) -> int:
     maximumdata = 0
@@ -25,7 +26,6 @@ class calc:
     return self.data  
   
   def GetPowerData(self) -> list:
-    sikiti = 
-    self.power_data = (self.maximum - sikiti) / (self.data.index(self.maximum) + 1)
+    self.power_data = (self.maximum - self.sikiti) / (self.data.index(self.maximum) + 1)
     return self.power_data
     # adの出力結果が分かり次第後で作る。
