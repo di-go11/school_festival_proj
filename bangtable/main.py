@@ -9,11 +9,12 @@ from animationclass import Animation
 
 animationA = Animation()
 animationB = Animation()
-stateA = State(animationA, 'bangtable/data/data01.txt', 280)
-stateB = State(animationB, 'bangtable/data/data02.txt', 280)
+stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
+stateB = State(animationB, '/home/bangtable002/data/data.txt', 280)
 
-flag_A_path = 'bangtable/data/flag01.txt'
-flag_B_path = 'bangtable/data/flag02.txt'
+
+flag_A_path = '/home/bangtable001/data/flag.txt'
+flag_B_path = '/home/bangtable002/data/flag.txt'
 
 
 # 全部をこの関数内で定義する必要がある
