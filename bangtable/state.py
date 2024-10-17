@@ -13,7 +13,6 @@ class state:
 
 	# 台パンフラグ
 	bang_flag : bool = False
-	bang_data : int = 0
 
 	# タイマ割込み用
 	time_start : float
@@ -29,9 +28,8 @@ class state:
 		self.threshold = threshold
 	
 	# 台パンデータセット
-	def set_bang_data(self, data : int) -> None:
+	def set_bang_flag(self) -> None:
 		self.bang_flag = True
-		self.bang_data = data
 
 		
 	# 状態遷移メソッド
