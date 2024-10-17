@@ -6,8 +6,8 @@ import random
 from state import state as State
 from animationclass import Animation
 
-animationA = Animation()
-animationB = Animation()
+animationA = Animation(0)
+animationB = Animation(1)
 stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
 stateB = State(animationB, '/home/bangtable002/data/data.txt', 280)
 
