@@ -9,8 +9,8 @@ from animationclass import Animation
 
 animationA = Animation()
 animationB = Animation()
-stateA = State(animationA)
-stateB = State(animationB)
+stateA = State(animationA, 'data/data01.txt', 280)
+stateB = State(animationB, './data/data02.txt', 280)
 
 
 # 全部をこの関数内で定義する必要がある
