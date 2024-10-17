@@ -1,5 +1,5 @@
 from animationclass import Animation
-from calc import calc
+from calc import CALC
 
 import time
 
@@ -8,19 +8,25 @@ class state:
 	BANG = 1
 	SHOW = 2
 
-	state : int = None
-	animation : Animation = None
+	state : int
+	animation : Animation
 
 	# 台パンフラグ
 	bang_flag : bool = False
 	bang_data : int = 0
 
 	# タイマ割込み用
-	time_start : float = None
+	time_start : float
 	
-	def __init__(self, animation) -> None:
+	# データファイルパス
+	data_path : str
+	threshold : int
+	
+	def __init__(self, animation, path, threshold) -> None:
 		self.state = state.START
 		self.animation = animation
+		self.data_path = path
+		self.threshold = threshold
 	
 	# 台パンデータセット
 	def set_bang_data(self, data : int) -> None:
@@ -48,12 +54,11 @@ class state:
 					# 台パン可能であれば、SHOW状態に遷移
 					if self.animation.get_can_bang_flag():
 						# データ計算
-						#print(self.bang_data)
-						#result = calc.calc(self.bang_data)
-						#maximum = result.GetPowerMax()
-						#print(maximum)
+						calc = CALC(self.data_path, self.threshold)
+						maximum = calc.GetMax()
+						print(maximum)
 						# 結果表示 仮でbangdata
-						self.animation.set_bang_flag(Animation.RESULT, self.bang_data)
+						self.animation.set_bang_flag(Animation.RESULT, maximum)
 						self.state = state.SHOW
 						# タイマ設定
 						self.time_start = time.time()
