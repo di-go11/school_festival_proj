@@ -7,7 +7,7 @@ def transmission(data_str):
 
 class CALC:
   def __init__(self, sikiti, path) -> None:
-    with open(path,'r',encoding='utf-8') as data_file:
+    with open('bangtable/data/data01.txt', 'r',encoding='utf-8') as data_file:
       self.data_tuple = transmission(data_file.read())
     self.power_data = None
     self.sikiti = sikiti

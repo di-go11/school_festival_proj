@@ -9,7 +9,7 @@ from animationclass import Animation
 
 animationA = Animation()
 animationB = Animation()
-stateA = State(animationA, './data/data01.txt', 280)
+stateA = State(animationA, 'data/data01.txt', 280)
 stateB = State(animationB, './data/data02.txt', 280)
 
 
