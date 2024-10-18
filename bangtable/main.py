@@ -6,8 +6,8 @@ import random
 from state import state as State
 from animationclass import Animation
 
-animationA = Animation()
-animationB = Animation()
+animationA = Animation(0)
+animationB = Animation(1)
 stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
 stateB = State(animationB, '/home/bangtable002/data/data.txt', 280)
 
@@ -34,20 +34,24 @@ async def run():
 				with open(flag_A_path, 'w', encoding='utf-8') as file:
 					file.write("True")
 
-
+		flagA = False
 		# 台パンフラグ読み込み
-		with open(flag_A_path, 'rb+') as file:
+		with open(flag_A_path, 'rb') as file:
 			content = file.read()
 			true_str = ''.join(format(byte, '02x') for byte in ("True").encode('utf-8'))
 			read_str = ''.join(format(byte, '02x') for byte in content)
-			print(read_str + " : " + true_str)
-			if (str(content.hex()) == true_str):
+			# print(read_str + " : " + true_str)
+			if (str(content.hex()) == true_str) | (str(content.hex()) == true_str + "0a"):
 				print("flag")
 				# 台パンデータセット、台パンフラグON
 				stateA.set_bang_flag()
-				# フラグリセット
-				file.seek(0)
-				file.write("False".encode('utf-8'))
+				# フラグセット
+				flagA = True
+		# フラグが立ってたらフラグクリア
+		if flagA:
+			# ファイルを開く (書き込みモード 'w')
+			with open(flag_A_path, 'w', encoding='utf-8') as file:
+				file.write("Flase")
 		# ステート監視
 		stateA.BangObserver()
 

@@ -44,9 +44,10 @@ class Animation:
 	can_bang_flag = False
 
 	# コンストラクタ
-	def __init__(self):
+	def __init__(self, monitor_num : int = 0):
+		pos = 1920 + self.screen_width * monitor_num
 		# ウィンドウの位置を設定（左上の位置を100px, 100pxに移動）
-		os.environ['SDL_VIDEO_WINDOW_POS'] = '1920,0'  # x, y座標
+		os.environ['SDL_VIDEO_WINDOW_POS'] = str(pos) + ',0'  # x, y座標
 
 		# Pygameを初期化
 		pygame.init()
