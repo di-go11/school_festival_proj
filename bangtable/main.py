@@ -5,11 +5,13 @@ import random
 
 from state import state as State
 from animationclass import Animation
+from projector import Projector
 
+projector = Projector()
 animationA = Animation(0)
 animationB = Animation(1)
-stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
-stateB = State(animationB, '/home/bangtable002/data/data.txt', 280)
+stateA = State(animationA, '/home/bangtable001/data/data.txt', 280, projector, 0)
+stateB = State(animationB, '/home/bangtable002/data/data.txt', 280, projector, 1)
 
 
 flag_A_path = '/home/bangtable001/data/flag.txt'

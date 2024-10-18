@@ -123,7 +123,7 @@ class Projector:
 		# 反映
 		pygame.display.flip()
 
-  
+  # モニタ保持
 	async def main(self):
 		while True:
 			for event in pygame.event.get():
@@ -131,10 +131,6 @@ class Projector:
 				if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
 					print("ESC")
 					return
-				# 仮トリガ
-				if (event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE):
-					print("SPACE")
-					self.add_data(1, random.randint(0, 999))
 			await asyncio.sleep(0.1)
 
 
