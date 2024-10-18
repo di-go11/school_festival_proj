@@ -22,13 +22,16 @@ class state:
 	# データファイルパス
 	data_path : str
 	threshold : int
+	mode : int = 1
 
-
-	def __init__(self, animation, path, threshold) -> None:
+	# コンストラクタ
+	# mode : 企業ラズパイ(値が小さい方) -> 1, 大きい方 -> 2
+	def __init__(self, animation, path, threshold, mode) -> None:
 		self.state = state.START
 		self.animation = animation
 		self.data_path = path
 		self.threshold = threshold
+		self.mode = mode
 	
 	# 台パンデータセット
 	def set_bang_flag(self) -> None:
@@ -55,9 +58,10 @@ class state:
 				if self.animation.get_can_bang_flag():
 					# データ計算
 					calc = CALC(self.threshold, self.data_path)
-					maximum = (calc.GetMax())[0]
+					maximum = (calc.GetMaxPower(self.mode))
 					print(maximum)
-
+					# 明示的にインスタンス開放
+					del calc
 					# 結果表示 仮でbangdata
 					self.animation.set_bang_flag(Animation.RESULT, maximum)
 					self.state = state.SHOW
