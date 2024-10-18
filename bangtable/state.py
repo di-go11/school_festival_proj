@@ -1,5 +1,7 @@
 from animationclass import Animation
 from calc import CALC
+from projector import Projector
+
 
 import time
 
@@ -20,12 +22,18 @@ class state:
 	# データファイルパス
 	data_path : str
 	threshold : int
+ 
+	# プロジェクタ表示
+	projector : Projector
+	monitor_num : int
 	
-	def __init__(self, animation, path, threshold) -> None:
+	def __init__(self, animation, path, threshold, projector : Projector, monitor_num : int = 0) -> None:
 		self.state = state.START
 		self.animation = animation
 		self.data_path = path
 		self.threshold = threshold
+		self.projector = projector
+		self.monitor_num = monitor_num
 	
 	# 台パンデータセット
 	def set_bang_flag(self) -> None:
@@ -54,6 +62,9 @@ class state:
 					calc = CALC(self.threshold, self.data_path)
 					maximum = (calc.GetMax())[0]
 					print(maximum)
+					
+					# プロジェクタ表示
+					self.projector.add_data(self.monitor_num, maximum)
 					# 結果表示 仮でbangdata
 					self.animation.set_bang_flag(Animation.RESULT, maximum)
 					self.state = state.SHOW
