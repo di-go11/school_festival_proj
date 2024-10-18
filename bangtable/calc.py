@@ -1,4 +1,5 @@
 import  ast
+import math
 
 def transmission(data_str):
   data_list = data_str.split(',')
@@ -32,7 +33,7 @@ class CALC:
   def GetPowerData(self) -> list:
     maximum = (self.GetMax())[0]
     count = (self.GetMax())[1]
-    self.power_data = (maximum - self.sikiti) / (count + 1)
+    self.power_data = math.sqrt(1000^2 - count/(maximum-self.sikiti))
     print(self.power_data)
     #return self.power_data
     # adの出力結果が分かり次第後で作る。
