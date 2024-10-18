@@ -44,7 +44,7 @@ class Animation:
 	can_bang_flag = False
 
 	# コンストラクタ
-	def __init__(self, monitor_num : int = 0):
+	def __init__(self, monitor_num : int):
 		pos = 1920 + self.screen_width * monitor_num
 		# ウィンドウの位置を設定（左上の位置を100px, 100pxに移動）
 		os.environ['SDL_VIDEO_WINDOW_POS'] = str(pos) + ',0'  # x, y座標

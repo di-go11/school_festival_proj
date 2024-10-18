@@ -48,8 +48,8 @@ class Projector:
 	max_bang_data = 0
 	size = 4
 	# フォント
-	# font_path = "/home/tanaka-iiyama-linux-pc/school_festival_proj/font/DShirkg8.ttc"
-	font_path = "school_festival_proj/font/DShirkg8.ttc"
+	font_path = "/home/tanaka-iiyama-linux-pc/school_festival_proj/font/DShirkg8.ttc"
+	# font_path = "school_festival_proj/font/DShirkg8.ttc"
 	font_text = None
 	font_unit = None
 
@@ -133,9 +133,10 @@ class Projector:
 					return
 			await asyncio.sleep(0.1)
 
-
+'''
 async def run():
 	start_task = asyncio.create_task(Projector().main())
 	await start_task
 
 asyncio.run(run())
+'''

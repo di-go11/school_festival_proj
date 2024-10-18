@@ -5,22 +5,23 @@ import random
 
 from state import state as State
 from animationclass import Animation
-from projector import Projector
+# from projector import Projector
 
-projector = Projector()
-animationA = Animation(0)
+# プロジェクタ諦め
+# projector = Projector()
+# animationA = Animation(0)
 animationB = Animation(1)
-stateA = State(animationA, '/home/bangtable001/data/data.txt', 280, projector, 0)
-stateB = State(animationB, '/home/bangtable002/data/data.txt', 280, projector, 1)
+# stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
+stateB = State(animationB, '/home/bangtable002/data/data.txt', 280)
 
 
-flag_A_path = '/home/bangtable001/data/flag.txt'
+# flag_A_path = '/home/bangtable001/data/flag.txt'
 flag_B_path = '/home/bangtable002/data/flag.txt'
 
 
 # 全部をこの関数内で定義する必要がある
 async def run():
-	gui_A = asyncio.create_task(animationA.main(Animation.FIRST))
+	gui_B = asyncio.create_task(animationB.main(Animation.FIRST))
 	
 	running = True
 	while running:
@@ -36,9 +37,9 @@ async def run():
 				with open(flag_A_path, 'w', encoding='utf-8') as file:
 					file.write("True")
 
-		flagA = False
+		flagB = False
 		# 台パンフラグ読み込み
-		with open(flag_A_path, 'rb') as file:
+		with open(flag_B_path, 'rb') as file:
 			content = file.read()
 			true_str = ''.join(format(byte, '02x') for byte in ("True").encode('utf-8'))
 			read_str = ''.join(format(byte, '02x') for byte in content)
@@ -46,21 +47,21 @@ async def run():
 			if (str(content.hex()) == true_str) | (str(content.hex()) == true_str + "0a"):
 				print("flag")
 				# 台パンデータセット、台パンフラグON
-				stateA.set_bang_flag()
+				stateB.set_bang_flag()
 				# フラグセット
-				flagA = True
+				flagB = True
 		# フラグが立ってたらフラグクリア
-		if flagA:
+		if flagB:
 			# ファイルを開く (書き込みモード 'w')
-			with open(flag_A_path, 'w', encoding='utf-8') as file:
+			with open(flag_B_path, 'w', encoding='utf-8') as file:
 				file.write("Flase")
 		# ステート監視
-		stateA.BangObserver()
+		stateB.BangObserver()
 
 		await asyncio.sleep(0.1)
 
 	print("-----")
-	await gui_A
+	await gui_B
 
 
 # ここから動作
