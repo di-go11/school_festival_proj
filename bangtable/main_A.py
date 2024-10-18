@@ -2,6 +2,7 @@
 import pygame
 import asyncio
 import random
+import gc
 
 from state import state as State
 from animationclass import Animation
@@ -11,7 +12,7 @@ from animationclass import Animation
 # projector = Projector()
 animationA = Animation(0)
 # animationB = Animation(1)
-stateA = State(animationA, '/home/bangtable001/data/data.txt', 280)
+stateA = State(animationA, '/home/bangtable001/data/data.txt', 230, 1)
 # stateB = State(animationB, '/home/bangtable002/data/data.txt', 280, projector, 1)
 
 
@@ -65,4 +66,8 @@ async def run():
 
 
 # ここから動作
-asyncio.run(run())
+try:
+	asyncio.run(run())
+except KeyboardInterrupt:
+	gc.collect()
+	print("プログラム中断")

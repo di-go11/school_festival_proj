@@ -273,6 +273,9 @@ class Animation:
 
 	# 結果画面
 	async def result(self):
+		# 念のためフラグクリア
+		self.can_bang_flag = False
+		# 計算
 		self.data_1 = self.bang_data // 100
 		data_2 = (self.bang_data - self.data_1 * 100) // 10
 		data_3 = self.bang_data - self.data_1 * 100 - data_2 * 10
