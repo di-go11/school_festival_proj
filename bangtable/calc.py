@@ -42,8 +42,7 @@ class CALC:
 		"""
 		maximumdata = 0
 		index = 0
-		#for onedata in self.data:
-		for row in range(150):
+		for row in range(min(150, len(self.data_tuple))):
 			#print(self.data_tuple[row])
 			# マックス値を取得
 			if self.data_tuple[row] > maximumdata:
@@ -74,6 +73,13 @@ class CALC:
 		maximum = formatted_data[0]
 		index = formatted_data[1]
 		# 計算
-		data = 1000 + (maximum - self.sikiti)/mode - 25 * math.sqrt(8*index - 39)
+		# data = 1000 + (maximum - self.sikiti)/mode - 25 * (8*index - 39) ** (1/3)
+		data = 800 + (maximum - self.sikiti)/mode - 100 * (10*index - 39) ** (1/3)
+
+		#normalized_max = (maximum - self.sikiti) / (1023 - self.sikiti)
+		#normalized_index = (index - 10) / (100 - 10)
+		#result = normalized_max * 999 * math.exp(0 - normalized_index * 5)
+		#data = min(max(int(result), 0), 999)
+
 		return round(data)
 
