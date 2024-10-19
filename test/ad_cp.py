@@ -32,7 +32,8 @@ try:
 
 		# 閾値を超えたらデータを取得
 		if value > threshold:
-			print(value)
+			# print(value)
+			print(f"{'threshold':>10} : {threshold:<10}\t{'data':>10} : {value:<10}")
 			data_list.append(value)
 			# フラグ立てる
 			flag = True
@@ -64,6 +65,12 @@ try:
 					f.write('Transfer flag created.\n')
 					print("Transfer flag created")
 
+		# 閾値自動修正
+		if value < threshold:
+			threshold -= 0.1
+		elif value > threshold:
+			threshold += 0.1
+    
 	#time.sleep(0.0005)
 except KeyboardInterrupt:
 	spi.close()
